@@ -1,77 +1,66 @@
-import { useState } from "react";
-import { invoke } from "@tauri-apps/api/tauri";
-import Image from "next/image";
-import reactLogo from "../assets/react.svg";
-import tauriLogo from "../assets/tauri.svg";
-import nextLogo from "../assets/next.svg";
-
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
+import AppLayout from "../components/layout";
+import { Card, Col, List, Row, Space, Statistic } from 'antd';
+import styles from '../styles/home.module.scss'
+import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import Line from "../components/charts/line";
+const App: React.FC = () => {
 
   return (
-    <div className="container">
-      <h1>Welcome to Tauri!</h1>
+<AppLayout>
+  <div>
 
-      <div className="row">
-        <span className="logos">
-          <a href="https://nextjs.org" target="_blank">
-            <Image
-              width={144}
-              height={144}
-              src={nextLogo}
-              className="logo next"
-              alt="Next logo"
-            />
-          </a>
-        </span>
-        <span className="logos">
-          <a href="https://tauri.app" target="_blank">
-            <Image
-              width={144}
-              height={144}
-              src={tauriLogo}
-              className="logo tauri"
-              alt="Tauri logo"
-            />
-          </a>
-        </span>
-        <span className="logos">
-          <a href="https://reactjs.org" target="_blank">
-            <Image
-              width={144}
-              height={144}
-              src={reactLogo}
-              className="logo react"
-              alt="React logo"
-            />
-          </a>
-        </span>
-      </div>
+  </div>
+  <Card style={{margin:"1rem 0"}}>
+  <h1>Yearly growth of each report type</h1>
+  <Line/>
+  </Card>
+  <Card style={{margin:"1rem 0"}}>
+  <Row gutter={16}>
+    <Col >
+      <Statistic title="Year to Date Report" value={112893} />
+    </Col>
+    <Col>
+      <Statistic title="Monthly Reports" value={1193} />
+    </Col>
+    <Col >
+      <Statistic title="Daily Reports" value={112}  />
+    </Col>
+  </Row>
+  </Card>
+ 
+  <Row gutter={16}>
+    <Col span={12}>
+      <Card bordered={false}>
+        <Statistic
+          title="Active"
+          value={11.28}
+          precision={2}
+          valueStyle={{ color: '#3f8600' }}
+          prefix={<ArrowUpOutlined />}
+          suffix="%"
+        />
+      </Card>
+    </Col>
+    <Col span={12}>
+      <Card bordered={false}>
+        <Statistic
+          title="Idle"
+          value={9.3}
+          precision={2}
+          valueStyle={{ color: '#cf1322' }}
+          prefix={<ArrowDownOutlined />}
+          suffix="%"
+        />
+      </Card>
+    </Col>
+  </Row>
 
-      <p>Click on the Tauri, Next, and React logos to learn more.</p>
-
-      <div className="row">
-        <div>
-          <input
-            id="greet-input"
-            onChange={(e) => setName(e.currentTarget.value)}
-            placeholder="Enter a name..."
-          />
-          <button type="button" onClick={() => greet()}>
-            Greet
-          </button>
-        </div>
-      </div>
-
-      <p>{greetMsg}</p>
-    </div>
+  <Card style={{margin:"1rem 0"}}>
+  <h1>Recent Report</h1>
+    <List/>
+  </Card>
+</AppLayout>
   );
-}
+};
 
 export default App;
